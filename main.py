@@ -34,13 +34,13 @@ class Menu:
         
         global menu_label, gen1_btn, gen2_btn, gen3_btn, gen4_btn, gen5_btn
         
-        menu_label = Label(text="Choose which gen to play", font=("Algerian", 24, "bold")).place(x=200, y=100)
+        menu_label = Label(root, text="Choose which gen to play", font=("Algerian", 24, "bold")).place(x=200, y=100)
         
-        gen1_btn = Button(text="gen1", font=("Algerian", 16, "bold"), padx=20, pady=20, command=lambda: self.remove_menu(1)).place(x=200, y=200)
-        gen2_btn = Button(text="gen2", font=("Algerian", 16, "bold"), padx=20, pady=20, command=lambda: self.remove_menu(2)).place(x=500, y=200)
-        gen3_btn = Button(text="gen3", font=("Algerian", 16, "bold"), padx=20, pady=20, command=lambda: self.remove_menu(3)).place(x=200, y=300)
-        gen4_btn = Button(text="gen4", font=("Algerian", 16, "bold"), padx=10, pady=10, command=lambda: self.remove_menu(4)).place(x=500, y=300)
-        gen5_btn = Button(text="gen5", font=("Algerian", 16, "bold"), padx=10, pady=10, command=lambda: self.remove_menu(5)).place(x=350, y=400)
+        gen1_btn = Button(root, text="gen1", font=("Algerian", 16, "bold"), padx=20, pady=20, command=lambda: self.remove_menu(1)).place(x=200, y=200)
+        gen2_btn = Button(root, text="gen2", font=("Algerian", 16, "bold"), padx=20, pady=20, command=lambda: self.remove_menu(2)).place(x=500, y=200)
+        gen3_btn = Button(root, text="gen3", font=("Algerian", 16, "bold"), padx=20, pady=20, command=lambda: self.remove_menu(3)).place(x=200, y=300)
+        gen4_btn = Button(root, text="gen4", font=("Algerian", 16, "bold"), padx=10, pady=10, command=lambda: self.remove_menu(4)).place(x=500, y=300)
+        gen5_btn = Button(root, text="gen5", font=("Algerian", 16, "bold"), padx=10, pady=10, command=lambda: self.remove_menu(5)).place(x=350, y=400)
     
     def remove_menu(self, gen):
         game = Guess_The_Pokemon(gen)
@@ -107,6 +107,8 @@ class Guess_The_Pokemon:
     # display choices
     def display_choices(self):
         print()
+
+menu = Menu()
 
 root.mainloop()
 
