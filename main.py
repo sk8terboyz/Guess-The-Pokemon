@@ -22,49 +22,65 @@ gen1 = data['images']['gen1']
 # answers
 answers = data['answers']
 
-class Guess_The_Pokemon:
-    
+class Menu:
     def __init__(self):
-        # set question number
-        self.question_num = 0
-            
-        # gen choice
-        self.gen = IntVar()
-        
-        # selected choice
-        self.choice = IntVar()
-        
+                
         # display menu
         self.display_menu()
         
-    
-    # display menu to choose generation
+
+        # display menu to choose generation
     def display_menu(self):
-        Label(text="Choose which gen to play", font=("Algerian", 24, "bold")).place(x=200, y=100)
         
-        Button(text="gen1", font=("Algerian", 16, "bold"), padx=20, pady=20, command=lambda: self.start_game(1)).place(x=200, y=200)
-        Button(text="gen2", font=("Algerian", 16, "bold"), padx=20, pady=20, command=lambda: self.start_game(2)).place(x=500, y=200)
-        Button(text="gen3", font=("Algerian", 16, "bold"), padx=20, pady=20, command=lambda: self.start_game(3)).place(x=200, y=300)
-        Button(text="gen4", font=("Algerian", 16, "bold"), padx=10, pady=10, command=lambda: self.start_game(4)).place(x=500, y=300)
-        Button(text="gen5", font=("Algerian", 16, "bold"), padx=10, pady=10, command=lambda: self.start_game(5)).place(x=350, y=400)
+        global menu_label, gen1_btn, gen2_btn, gen3_btn, gen4_btn, gen5_btn
+        
+        menu_label = Label(text="Choose which gen to play", font=("Algerian", 24, "bold")).place(x=200, y=100)
+        
+        gen1_btn = Button(text="gen1", font=("Algerian", 16, "bold"), padx=20, pady=20, command=lambda: self.remove_menu(1)).place(x=200, y=200)
+        gen2_btn = Button(text="gen2", font=("Algerian", 16, "bold"), padx=20, pady=20, command=lambda: self.remove_menu(2)).place(x=500, y=200)
+        gen3_btn = Button(text="gen3", font=("Algerian", 16, "bold"), padx=20, pady=20, command=lambda: self.remove_menu(3)).place(x=200, y=300)
+        gen4_btn = Button(text="gen4", font=("Algerian", 16, "bold"), padx=10, pady=10, command=lambda: self.remove_menu(4)).place(x=500, y=300)
+        gen5_btn = Button(text="gen5", font=("Algerian", 16, "bold"), padx=10, pady=10, command=lambda: self.remove_menu(5)).place(x=350, y=400)
     
-    def start_game(self, gen):
-        # set gen choice
-        self.set_gen_choice(gen)
+    def remove_menu(self, gen):
+        game = Guess_The_Pokemon(gen)
+        
+        game.start_game()
+        root.destroy()
+    
+class Guess_The_Pokemon:
+    
+    def __init__(self, gen):
+        
+        # set question number
+        self.question_num = 0
+            
+        # gen choice from menu
+        self.gen = gen
+        
+        # selected choice
+        self.choice = IntVar()
+    
+
+    def start_game(self):
+
+        # root of game GUI
+        game_root = Tk()
+        
+        # title of window
+        game_root.title("Pokemon Quiz")
+
+        # size of window
+        game_root.geometry('800x680')
         
         # display title
-        self.display_title()
+        self.display_title(game_root)
         
         # display blacked image
         self.display_new_image()
         
         # display choices
         self.display_choices()
-        
-    
-    # set gen choice
-    def set_gen_choice(self, gen):
-        self.gen = gen
     
     # set images based on gen choice
     def set_gen_images(self):
@@ -72,8 +88,8 @@ class Guess_The_Pokemon:
         print()
     
     # display title
-    def display_title(self):
-        Label(root, text="Who's That Pokemon", bg="green", fg="white", width=50, font=("Algerian", 24, "bold")).place(x=0, y=2)
+    def display_title(self, game_root):
+        Label(game_root, text="Who's That Pokemon", bg="green", fg="white", width=50, font=("Algerian", 24, "bold")).place(x=0, y=2)
         
     # check answer
     def check_answer(self):
@@ -81,7 +97,7 @@ class Guess_The_Pokemon:
             return True
     
     # display correct image - I want to animate this (not sure how to with tkinter yet though)
-    def display_colored_image(self):
+    def display_colored_image(self, game_root):
         print()
     
     # display next blacked out image
@@ -91,9 +107,6 @@ class Guess_The_Pokemon:
     # display choices
     def display_choices(self):
         print()
-
-    
-quiz = Guess_The_Pokemon()
 
 root.mainloop()
 
