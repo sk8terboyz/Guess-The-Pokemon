@@ -1,5 +1,6 @@
 {
     "blacked_images": {
+        "blackout":"pokemon_imgs/blackout.png",
         "gen1": [
             "pokemon_imgs/gen1/articuno-blacked.png",
             "pokemon_imgs/gen1/beedrill-blacked.png",
