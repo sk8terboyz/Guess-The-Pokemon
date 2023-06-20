@@ -1,7 +1,15 @@
 {
     "blacked_images": {
         "gen1": [
-            "pokemon_imgs/gen1/articuno-blacked.png"
+            "pokemon_imgs/gen1/articuno-blacked.png",
+            "pokemon_imgs/gen1/beedrill-blacked.png",
+            "pokemon_imgs/gen1/bulbasaur-blacked.png",
+            "pokemon_imgs/gen1/clefairy-blacked.png",
+            "pokemon_imgs/gen1/fearow-blacked.png",
+            "pokemon_imgs/gen1/gengar-blacked.png",
+            "pokemon_imgs/gen1/gyarados-blacked.png",
+            "pokemon_imgs/gen1/ivysaur-blacked.png",
+            "pokemon_imgs/gen1/nidoqueen-blacked.png"
         ],
         "gen2": [
             "pokemon_imgs/gen2/scizor-blacked.png"
@@ -18,7 +26,15 @@
     },
     "images": {
         "gen1": [
-            "pokemon_imgs/gen1/articuno.png"
+            "pokemon_imgs/gen1/articuno.png",
+            "pokemon_imgs/gen1/beedrill.png",
+            "pokemon_imgs/gen1/bulbasaur.png",
+            "pokemon_imgs/gen1/clefairy.png",
+            "pokemon_imgs/gen1/fearow.png",
+            "pokemon_imgs/gen1/gengar.png",
+            "pokemon_imgs/gen1/gyarados.png",
+            "pokemon_imgs/gen1/ivysaur.png",
+            "pokemon_imgs/gen1/nidoqueen.png"
         ],
         "gen2": [
             "pokemon_imgs/gen2/scizor.png"
