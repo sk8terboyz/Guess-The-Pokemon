@@ -116,6 +116,7 @@ class Guess_The_Pokemon:
         base_img = Image.open(data['blacked_images']['blackout'])
         base_img = base_img.resize((50, 50))
         img = ImageTk.PhotoImage(base_img)
+        
         # all labels used for animation
         h0 = Label(self.root, image=img)
         h1 = Label(self.root, image=img)
@@ -181,25 +182,25 @@ class Guess_The_Pokemon:
         
         blackout_images = [h0,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13,h14,h15,h16,h17,h18,h19,h20,h21,h22,h23,h24,h25,h26,h27,h28,h29]
         
-        a = 0
-        b = 0
+        horizontal = 0
+        vertical = 0
         xpos = 250
         ypos = 100
         index = 0
-        while b < 5:
-            while a < 6:
+        while vertical < 5:
+            while horizontal < 6:
                 blackout_images[index].place(x=xpos, y=ypos)
                 time.sleep(0.05)
                 self.root.update()
                 xpos += 50
                 index += 1
-                a += 1
+                horizontal += 1
             ypos += 50
             xpos = 250
-            b += 1
-            a = 0
+            vertical += 1
+            horizontal = 0
             
-        time.sleep(0.5)
+        time.sleep(0.25)
         # display colored image
         self.display_colored_image()
     
@@ -215,12 +216,24 @@ class Guess_The_Pokemon:
         
         self.root.update()
         time.sleep(1)
-        self.display_new_image()
+        
+        # end game condition
+        if len(self.previous_images) == len(self.blacked_images):
+            # display game over/results
+            print("GAME OVER")
+        else:
+            self.display_new_image()
     
     # display next blacked out image
     def display_new_image(self):
         # choose random image
-        self.current_image = random.randint(0, len(self.blacked_images)-1)
+        rand = random.randint(0, len(self.blacked_images)-1)
+        while rand in self.previous_images:
+            rand = random.randint(0, len(self.blacked_images)-1)
+        self.current_image = rand
+        
+        # add image choice to previous images
+        self.previous_images.append(rand)
         
         # store & display current blacked out image
         base_img = Image.open(self.blacked_images[self.current_image])
