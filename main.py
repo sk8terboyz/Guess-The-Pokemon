@@ -16,10 +16,6 @@ root.geometry('800x680')
 with open('data.json') as f:
     data = json.load(f)
 
-
-# answers
-answers = data['answers']
-
 class Menu:
     def __init__(self):
                 
@@ -52,16 +48,18 @@ class Guess_The_Pokemon:
         # set question number
         self.question_num = 0
         
-        # selected choice
-        self.choice = IntVar()
-        
         # current image chosen
         self.current_image = IntVar()
         
         # list of images already used to avoid duplications during game
         self.previous_images = []
+        
+        # list of current options per question
+        self.current_opts = []
+        
+        # choice user makes
+        self.choice = IntVar()
     
-
     def start_game(self, gen):
         # set gen choice from menu
         self.gen = gen
@@ -82,36 +80,41 @@ class Guess_The_Pokemon:
         self.display_title()
         
         # set images based on gen choice
-        self.set_gen_images()
+        self.set_gen_data()
         
         # display blacked image
         self.display_new_image()
-        
-        # display choices
-        self.display_choices()
     
     # set images based on gen choice
-    def set_gen_images(self):
+    def set_gen_data(self):
         # store blacked out images
         self.blacked_images = data['blacked_images'][f'gen{self.gen}']
         # store colored images
         self.filled_images = data['images'][f'gen{self.gen}']
+        # stored choices
+        self.choices = data['choices'][f'gen{self.gen}']
     
     # display title
     def display_title(self):
-        Label(self.root, text="Who's That Pokemon", bg="green", fg="white", width=38, font=("Algerian", 24, "bold")).place(x=0, y=2)
+        Label(self.root, text="Who's That Pokemon", bg="green", fg="white", width=38, font=("Algerian", 24, "bold")).place(x=0, y=0)
         
     # check answer
     def check_answer(self):
+        print('------------')
+        print(f'user choice={self.choice}')
+        print(f'current_image={self.current_image}')
+        print(f'self.choices[self.current_image]={self.choices[self.current_image]}')
+        print('------------')
         # method used in previous project, may use a different method
-        if self.choice.get() == answers[self.question_num]:
+        if self.choice == self.choices[self.current_image]:
             return True
+        return False
     
-    def user_choice(self):
-        if self.check_answer():
-            self.display_colored_image()
-    
-    def animate_image(self):
+    # animate & display if correct or not
+    def animate_image(self, index_choice):
+        # store user choice
+        self.choice = index_choice
+        
         # store & display current blacked out image
         base_img = Image.open(data['blacked_images']['blackout'])
         base_img = base_img.resize((50, 50))
@@ -199,7 +202,7 @@ class Guess_The_Pokemon:
             xpos = 250
             vertical += 1
             horizontal = 0
-            
+        
         time.sleep(0.25)
         # display colored image
         self.display_colored_image()
@@ -210,7 +213,7 @@ class Guess_The_Pokemon:
         base_img = Image.open(self.filled_images[self.current_image])
         base_img = base_img.resize((300, 250))
         img = ImageTk.PhotoImage(base_img)
-        holder = Label(self.root, image=img)
+        holder = Label(self.root, image=img, bg=('green' if self.check_answer() else 'red'))
         holder.image = img
         holder.place(x=250, y=100)
         
@@ -244,14 +247,71 @@ class Guess_The_Pokemon:
         holder.image = img
         holder.place(x=250, y=100)
         
-        print(f"new image from gen {self.gen} - index={self.current_image}")
+        # set option buttons
+        self.display_choices()
     
     # display choices
     def display_choices(self):
-        # temp button to cycle images
-        # Button(self.root, command=self.display_new_image, width=10, bg='blue', fg='white', text="new image", font=('algerian', 16, 'bold')).place(x=300, y=400)
-        Button(self.root, command=self.animate_image, width=10, bg='blue', fg='white', text="animate", font=('algerian', 16, 'bold')).place(x=300, y=450)
+        index_options = [0,1,2,3]
+        # temp values for current_opts
+        self.current_opts = [0,0,0,0]
+        # correct answer index from buttons
+        correct_index = random.randint(0,3)
+        
+        # add correct answer
+        self.current_opts[correct_index] = self.choices[self.current_image]
+        print(self.current_opts)
+        # remove correct index from options
+        index_options.remove(correct_index)
+        # chosen random choices
+        rand_choices = []
+        rand_choices.append(self.current_image)
 
+        # set 3 random choices from already set gen choices
+        for index in range(3):
+            # get random choice
+            random_temp = random.randint(0, len(self.choices)-1)
+            # stop duplicates
+            while (random_temp not in index_options) and (self.choices[random_temp] != rand_choices[0]):
+                random_temp = random.randint(0, len(self.choices)-1)
+            # add random choice
+            rand_choices.append(random_temp)
+            # remove option from randomize process
+            index_options.remove(random_temp)
+            # add choice to options
+            self.current_opts[random_temp] = self.choices[random_temp]
+        
+        print('~~~~~~~~~~~')
+        print(self.current_opts)
+        print('~~~~~~~~~~~')
+        
+        displayed_opts = []
+        xpos = 200
+        ypos = 400
+        # add all buttons
+        for x in range(4):
+            # choose random option from current options
+            index = random.randint(0, len(self.current_opts)-1)
+            # add index from self.choices
+            displayed_opts.append(self.current_opts[index])
+            # create button
+            Button(self.root, command=lambda: self.animate_image(displayed_opts[index]), width=10, bg="blue", fg='white', text=self.current_opts[index], font=('algerian', 16, 'bold')).place(x=xpos, y=ypos)
+            if x == 1:
+                # move down
+                ypos += 100
+                # move left
+                xpos -= 200
+            else:
+                # move right
+                xpos += 200
+            # remove index after adding
+            self.current_opts.pop(index)
+            print('+++++++++')
+            print(f"index={index}")
+            print(displayed_opts)
+            print('==========')
+            print(self.current_opts)
+            print('+++++++++')
 menu = Menu()
 
 root.mainloop()
